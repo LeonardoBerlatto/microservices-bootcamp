@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: photoapp-zuul-api-gateway
+  devtools:
+    restart:
+      enabled: true
+server:
+  port: 8010
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
