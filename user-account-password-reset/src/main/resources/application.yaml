@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: user-account-password-reset-microservice
+  devtools:
+    restart:
+      enabled: true
+server:
+  port: 0
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
