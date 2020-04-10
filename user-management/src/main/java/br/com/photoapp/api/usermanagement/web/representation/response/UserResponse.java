@@ -1,4 +1,4 @@
-package br.com.photoapp.api.usermanagement.web.representation.user.response;
+package br.com.photoapp.api.usermanagement.web.representation.response;
 
 import lombok.*;
 

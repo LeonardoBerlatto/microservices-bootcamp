@@ -1,4 +1,4 @@
-package br.com.photoapp.api.usermanagement.web.representation.user.request;
+package br.com.photoapp.api.usermanagement.web.representation.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
