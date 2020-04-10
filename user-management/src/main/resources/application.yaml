@@ -1,9 +1,6 @@
 spring:
   application:
     name: user-management-microservice
-  devtools:
-    restart:
-      enabled: true
   datasource:
     driverClassName: org.h2.Driver
     username: root
