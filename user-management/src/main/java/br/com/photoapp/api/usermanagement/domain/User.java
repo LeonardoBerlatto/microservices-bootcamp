@@ -1,4 +1,4 @@
-package br.com.photoapp.api.usermanagement.web.domain;
+package br.com.photoapp.api.usermanagement.domain;
 
 import lombok.*;
 
