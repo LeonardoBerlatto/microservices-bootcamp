@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-table-user-add-username-column
+      author: leonardo-berlatto
+      runInTransaction: true
+      runOnChange: true
+      changes:
+        - sqlFile:
+            endDelimiter: \nGO
+            path: alter-table-user-add-birthdate-column.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

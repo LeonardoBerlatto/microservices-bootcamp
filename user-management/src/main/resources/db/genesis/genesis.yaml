@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-database-script
+      author: leonardo-berlatto
+      runInTransaction: true
+      runOnChange: true
+      changes:
+        - sqlFile:
+            path: create-database.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
