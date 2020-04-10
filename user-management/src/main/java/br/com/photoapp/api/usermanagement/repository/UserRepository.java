@@ -1,6 +1,6 @@
 package br.com.photoapp.api.usermanagement.repository;
 
-import br.com.photoapp.api.usermanagement.web.domain.User;
+import br.com.photoapp.api.usermanagement.domain.User;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;

@@ -1,9 +1,9 @@
 package br.com.photoapp.api.usermanagement.web.controller;
 
+import br.com.photoapp.api.usermanagement.domain.User;
 import br.com.photoapp.api.usermanagement.mapper.UserMapper;
-import br.com.photoapp.api.usermanagement.web.domain.User;
-import br.com.photoapp.api.usermanagement.web.representation.user.request.CreateUserRequest;
 import br.com.photoapp.api.usermanagement.service.UserService;
+import br.com.photoapp.api.usermanagement.web.representation.user.request.CreateUserRequest;
 import br.com.photoapp.api.usermanagement.web.representation.user.response.UserResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

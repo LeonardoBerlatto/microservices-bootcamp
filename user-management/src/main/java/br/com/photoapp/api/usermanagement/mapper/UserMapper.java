@@ -1,6 +1,6 @@
 package br.com.photoapp.api.usermanagement.mapper;
 
-import br.com.photoapp.api.usermanagement.web.domain.User;
+import br.com.photoapp.api.usermanagement.domain.User;
 import br.com.photoapp.api.usermanagement.web.representation.user.request.CreateUserRequest;
 import br.com.photoapp.api.usermanagement.web.representation.user.response.UserResponse;
 
