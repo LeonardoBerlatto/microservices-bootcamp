@@ -24,3 +24,9 @@ eureka:
   instance:
     preferIpAddress: true
     instance-id: ${spring.application.name}:${random.uuid}
+api:
+  user:
+    signup:
+      path: /users
+  gateway:
+    ip: 127.0.0.1
