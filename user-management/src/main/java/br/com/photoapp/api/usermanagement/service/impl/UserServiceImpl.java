@@ -6,7 +6,6 @@ import br.com.photoapp.api.usermanagement.mapper.UserMapper;
 import br.com.photoapp.api.usermanagement.repository.UserRepository;
 import br.com.photoapp.api.usermanagement.service.UserService;
 import br.com.photoapp.api.usermanagement.web.representation.request.CreateUserRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +17,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public User create(final CreateUserRequest userRequest) {
+    public User createUser(final CreateUserRequest userRequest) {
         final User user = UserMapper.fromRequestToDomain(userRequest);
 
         user.setPassword(getEncryptedPassword(userRequest.getPassword()));

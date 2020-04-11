@@ -7,10 +7,12 @@ import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @UseClasspathSqlLocator
+@Repository
 public interface UserRepository {
 
     @SqlUpdate

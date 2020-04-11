@@ -5,7 +5,7 @@ import br.com.photoapp.api.usermanagement.web.representation.request.CreateUserR
 
 public interface UserService {
 
-    User create(CreateUserRequest userRequest);
+    User createUser(CreateUserRequest userRequest);
 
     User getUserById(Long id);
 

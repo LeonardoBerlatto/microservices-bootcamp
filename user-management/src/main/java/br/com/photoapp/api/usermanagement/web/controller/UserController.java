@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse createUser(@Valid @RequestBody CreateUserRequest userRequest) {
-        User user = userService.create(userRequest);
+        User user = userService.createUser(userRequest);
 
         return UserMapper.fromDomainToResponse(user);
     }
