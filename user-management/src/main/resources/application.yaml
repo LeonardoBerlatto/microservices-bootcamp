@@ -1,9 +1,20 @@
 spring:
   application:
     name: user-management-microservice
-  devtools:
-    restart:
+  datasource:
+    driverClassName: org.h2.Driver
+    username: root
+    password: root
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
       enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+  liquibase:
+    change-log: classpath:/db/liquibase-changelog.yaml
+
 server:
   port: 0
 eureka:
@@ -13,3 +24,9 @@ eureka:
   instance:
     preferIpAddress: true
     instance-id: ${spring.application.name}:${random.uuid}
+api:
+  user:
+    signup:
+      path: /users
+  gateway:
+    ip: 127.0.0.1
