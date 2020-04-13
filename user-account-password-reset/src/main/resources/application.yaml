@@ -1,9 +1,6 @@
 spring:
   application:
     name: user-account-password-reset-microservice
-  devtools:
-    restart:
-      enabled: true
 server:
   port: 0
 eureka:
