@@ -13,3 +13,5 @@ spring:
           username: ${GIT_USERNAME}
           password: ${GIT_PASSWORD}
           clone-on-start: true
+          search-paths:
+            - 'user-management-microservice*'
