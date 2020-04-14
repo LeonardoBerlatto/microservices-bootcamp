@@ -1,7 +1,17 @@
+server:
+  port: 8888
 spring:
   application:
     name: photoapp-config-server
   profiles:
-    active: native
-server:
-  port: 8888
+    active: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/LeonardoBerlatto/microservices-cloud-config
+          username: ${GIT_USERNAME}
+          password: ${GIT_PASSWORD}
+          clone-on-start: true
+          search-paths:
+            - 'user-management-microservice*'
