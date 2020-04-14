@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -14,20 +15,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
-    @Value("api.user.singup.path")
+    @Value("${api.user.signup.path}")
     private String userSignupUrl;
-
-    @Value("api.gateway.ip")
-    private String apiGatewayIpAdress;
 
     @Override
     protected void configure(HttpSecurity security) throws Exception {
         security
-                .csrf().and()
-                .headers().frameOptions()
-                .disable()
+                .headers().frameOptions().sameOrigin()
                 .and()
+                .cors().and().csrf().disable()
                 .exceptionHandling()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
 
@@ -41,8 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Login and Signup
                 .antMatchers(HttpMethod.POST, userSignupUrl)
-                .hasIpAddress(apiGatewayIpAdress).antMatchers()
-                .permitAll();
+                .permitAll()
+
+                .anyRequest()
+                .authenticated();
     }
 
     @Bean
