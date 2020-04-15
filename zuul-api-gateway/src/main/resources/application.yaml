@@ -1,9 +1,6 @@
 spring:
   application:
     name: photoapp-zuul-api-gateway
-  devtools:
-    restart:
-      enabled: true
 server:
   port: 8010
 eureka:
