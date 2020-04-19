@@ -15,3 +15,4 @@ spring:
           clone-on-start: true
           search-paths:
             - 'user-management-microservice*'
+            - 'zuul-api-gateway*'
