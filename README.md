@@ -1,4 +1,4 @@
-# :scroll: microservices-bootcamp ![Java CI with Maven](https://github.com/LeonardoBerlatto/microservices-bootcamp/workflows/Java%20CI%20with%20Maven/badge.svg?branch=develop)
+# :scroll: microservices-bootcamp 
 This project's main goal is to store the content I used to learn about microservices in general.
 
 
