@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: genesis/genesis.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: v1/v1.yaml
+      relativeToChangelogFile: true
