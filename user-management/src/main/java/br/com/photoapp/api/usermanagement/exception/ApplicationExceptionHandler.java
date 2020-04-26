@@ -4,6 +4,7 @@ import br.com.photoapp.api.usermanagement.exception.model.ErrorMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -19,7 +20,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     public ResponseEntity<ErrorMessage> handleUnexpectedException(Exception exception, WebRequest request) {
         final HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        final ErrorMessage errorMessage = buildMessage(exception, request, httpStatus.value());
+        final ErrorMessage errorMessage = buildMessage(exception.getMessage(), request, httpStatus.value());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
     }
@@ -28,17 +29,26 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     public ResponseEntity<ErrorMessage> handleNotFoundException(NotFoundExeception exception, WebRequest request) {
         final HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
-        final ErrorMessage errorMessage = buildMessage(exception, request, httpStatus.value());
+        final ErrorMessage errorMessage = buildMessage(exception.getMessage(), request, httpStatus.value());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
     }
 
-    private ErrorMessage buildMessage(final Exception exception, final WebRequest request, int statusCode) {
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<ErrorMessage> handleBadCredentialsException(BadCredentialsException exception, WebRequest request) {
+        final HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
+
+        final ErrorMessage errorMessage = buildMessage("Invalid username or password.", request, httpStatus.value());
+
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
+    }
+
+    private ErrorMessage buildMessage(final String message, final WebRequest request, int statusCode) {
         final String context = ((ServletWebRequest) request).getRequest().getServletPath();
 
         return ErrorMessage.builder()
                 .timestamp(new Date())
-                .message(exception.getMessage())
+                .message(message)
                 .status(statusCode)
                 .uriPath(context)
                 .build();

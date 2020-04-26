@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: user-management-microservice
-  cloud:
-    config:
-      uri: http://localhost:8888
