@@ -22,4 +22,8 @@ public interface UserRepository {
     @SqlQuery
     @RegisterBeanMapper(User.class)
     Optional<User> findById(Long id);
+
+    @SqlQuery
+    @RegisterBeanMapper(User.class)
+    Optional<User> findByEmail(String email);
 }
