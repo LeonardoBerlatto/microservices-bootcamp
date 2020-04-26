@@ -7,11 +7,12 @@ eureka:
   datacenter: porto-alegre
   environment: development
   instance:
-    lease-expiration-duration-in-seconds: 40
+    lease-expiration-duration-in-seconds: 10
+    lease-renewal-interval-in-seconds: 10
   server:
     eviction-interval-timer-in-ms: 4500
-    expected-client-renewal-interval-seconds: 25
-    renewal-threshold-update-interval-ms: 35000
+    expected-client-renewal-interval-seconds: 5
+    renewal-threshold-update-interval-ms: 5000
 logging:
   level:
     com:
