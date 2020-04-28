@@ -1,24 +1,18 @@
 package br.com.photoapp.api.usermanagement.security;
 
-import br.com.photoapp.api.usermanagement.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -30,15 +24,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${api.login.path}")
     private String userLoginUrl;
 
+    @Value("${api.gateway.ip}")
+    private String gatewayIpAddres;
+
     private final UserDetailsService userDetailsService;
 
-    private final JwtTokenAuthenticationFilter jwtAuthenticationFilter;
-
-
     @Autowired
-    public WebSecurityConfig(UserDetailsService customUserDetailsService, JwtTokenAuthenticationFilter jwtAuthenticationFilter) {
+    public WebSecurityConfig(UserDetailsService customUserDetailsService) {
         this.userDetailsService = customUserDetailsService;
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Override
@@ -47,34 +40,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .cors().and().csrf().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .and()
-                // Add a filter to validate user credentials and add token in the response header
 
-                // What's the authenticationManager()?
-                // An object provided by WebSecurityConfigurerAdapter, used to authenticate the user passing user's credentials
-                // The filter needs this auth manager to authenticate the user.
                 .authorizeRequests()
-
-                // Swagger
-                .antMatchers("/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**").permitAll()
-
-                // Login and Signup
-                .antMatchers(HttpMethod.POST, userSignupUrl, userLoginUrl)
-                .permitAll()
-
-                .anyRequest()
-                .authenticated();
-
-        security.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .antMatchers("/**")
+                .hasIpAddress(gatewayIpAddres);
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
