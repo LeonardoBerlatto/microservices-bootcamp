@@ -35,9 +35,6 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
     @Value("${security.jwt.prefix}")
     private String tokenPrefix;
 
-    @Value("${security.jwt.secret}")
-    private String tokenSecret;
-
     private final JwtTokenProvider jwtTokenProvider;
 
     private final CustomUserDetailsService customUserDetailsService;
