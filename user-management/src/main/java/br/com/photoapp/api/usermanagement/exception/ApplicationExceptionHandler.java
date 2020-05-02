@@ -4,17 +4,18 @@ import br.com.photoapp.api.usermanagement.exception.model.ErrorMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import java.util.Date;
 
 @ControllerAdvice
-public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
+public class ApplicationExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorMessage> handleUnexpectedException(Exception exception, WebRequest request) {
@@ -34,11 +35,18 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
     }
 
-    @ExceptionHandler(value = BadCredentialsException.class)
-    public ResponseEntity<ErrorMessage> handleBadCredentialsException(BadCredentialsException exception, WebRequest request) {
-        final HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
 
-        final ErrorMessage errorMessage = buildMessage("Invalid username or password.", request, httpStatus.value());
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorMessage> handleConstraintViolationException(MethodArgumentNotValidException exception, WebRequest request) {
+        final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+        String exceptionMessage = exception.getMessage();
+
+        if (!exception.getBindingResult().getAllErrors().isEmpty()) {
+            exceptionMessage = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+        }
+
+        final ErrorMessage errorMessage = buildMessage(exceptionMessage, request, httpStatus.value());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
     }
