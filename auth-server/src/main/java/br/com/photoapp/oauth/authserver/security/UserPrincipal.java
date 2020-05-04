@@ -1,45 +1,44 @@
 package br.com.photoapp.oauth.authserver.security;
 
+import br.com.photoapp.eureka.commonservice.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(of = "username")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserPrincipal implements UserDetails {
     private static String ROLE_PREFIX = "ROLE_";
 
+    private Long id;
+
     private String username;
+
     @JsonIgnore
     private String passsword;
+
     private Collection<? extends GrantedAuthority> authorities;
 
 
-    @Autowired
-    public UserPrincipal(String username, String passsword, Collection<? extends GrantedAuthority> authorities) {
-        this.username = username;
-        this.passsword = passsword;
-        this.authorities = authorities;
-    }
-
-    public static UserPrincipal create(String passsword) {
+    public static UserPrincipal create(User user) {
 
         List<GrantedAuthority> authorities = Arrays.asList(
                 new SimpleGrantedAuthority(ROLE_PREFIX+"USER")
         );
 
         return new UserPrincipal(
-                "user",
-                passsword,
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
                 authorities
         );
     }

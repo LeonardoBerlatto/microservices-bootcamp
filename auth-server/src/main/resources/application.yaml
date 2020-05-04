@@ -1,0 +1,24 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.application.name}:${random.uuid}
+server:
+  port: 9595
+  servlet:
+    context-path: /auth
+security:
+  oauth2:
+    client:
+      client-id: b987635179e1c4080435
+      client-secret: 0b9bb276e78e8ebf7659e00b2366032e
+      authorized-grant-types: refresh_token, password, client_credentials
+      scope: any
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/photoapp
+    username: postgres
+    password: root
