@@ -1,6 +1,6 @@
 SELECT
     *
 FROM
-    user
+    "user"
 WHERE
         id = :id;
