@@ -1,6 +1,6 @@
 package br.com.photoapp.api.usermanagement.repository;
 
-import br.com.photoapp.api.usermanagement.domain.User;
+import br.com.photoapp.eureka.photoappcommons.domain.User;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
@@ -24,6 +24,8 @@ public interface UserRepository {
     Optional<User> findById(Long id);
 
     @SqlQuery
-    @RegisterBeanMapper(User.class)
-    Optional<User> findByEmail(String email);
+    boolean existsByEmail(String email);
+
+    @SqlQuery
+    boolean existsByUsername(String username);
 }
