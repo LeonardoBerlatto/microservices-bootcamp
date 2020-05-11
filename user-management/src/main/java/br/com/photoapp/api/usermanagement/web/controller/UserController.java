@@ -4,7 +4,7 @@ import br.com.photoapp.api.usermanagement.mapper.UserMapper;
 import br.com.photoapp.api.usermanagement.service.UserService;
 import br.com.photoapp.api.usermanagement.web.representation.request.CreateUserRequest;
 import br.com.photoapp.api.usermanagement.web.representation.response.UserResponse;
-import br.com.photoapp.eureka.commonservice.domain.User;
+import br.com.photoapp.eureka.photoappcommons.domain.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

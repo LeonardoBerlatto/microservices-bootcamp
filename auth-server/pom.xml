@@ -72,10 +72,10 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Project Common Service -->
+		<!-- Project Commons -->
 		<dependency>
 			<groupId>br.com.photoapp.eureka</groupId>
-			<artifactId>common-service</artifactId>
+			<artifactId>photoapp-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

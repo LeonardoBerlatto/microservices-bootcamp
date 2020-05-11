@@ -5,7 +5,7 @@ import br.com.photoapp.api.usermanagement.exception.UserWithThisEmailExistsExcep
 import br.com.photoapp.api.usermanagement.exception.UserWithThisUsernameExistsException;
 import br.com.photoapp.api.usermanagement.repository.UserRepository;
 import br.com.photoapp.api.usermanagement.web.representation.request.CreateUserRequest;
-import br.com.photoapp.eureka.commonservice.domain.User;
+import br.com.photoapp.eureka.photoappcommons.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

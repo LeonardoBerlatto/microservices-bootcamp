@@ -1,6 +1,6 @@
 package br.com.photoapp.oauth.authserver.security;
 
-import br.com.photoapp.eureka.commonservice.domain.User;
+import br.com.photoapp.eureka.photoappcommons.domain.User;
 import br.com.photoapp.oauth.authserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

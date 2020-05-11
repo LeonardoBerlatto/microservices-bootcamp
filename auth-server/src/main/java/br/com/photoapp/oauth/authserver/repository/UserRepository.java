@@ -1,6 +1,6 @@
 package br.com.photoapp.oauth.authserver.repository;
 
-import br.com.photoapp.eureka.commonservice.domain.User;
+import br.com.photoapp.eureka.photoappcommons.domain.User;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.locator.UseClasspathSqlLocator;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
