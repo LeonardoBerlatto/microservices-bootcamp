@@ -16,7 +16,6 @@ spring:
           search-paths:
             - 'user-management-microservice*'
             - 'zuul-api-gateway*'
-            - 'auth-service*'
   security:
     user:
       name: ${SECURITY_USERNAME}

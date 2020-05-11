@@ -3,4 +3,4 @@ SELECT
 FROM
     user
 WHERE
-        id = :id;
+        email = :email;

@@ -1,17 +1,12 @@
 package br.com.photoapp.api.usermanagement.service.impl;
 
+import br.com.photoapp.api.usermanagement.domain.User;
 import br.com.photoapp.api.usermanagement.exception.UserNotFoundException;
-import br.com.photoapp.api.usermanagement.exception.UserWithThisEmailExistsException;
-import br.com.photoapp.api.usermanagement.exception.UserWithThisUsernameExistsException;
 import br.com.photoapp.api.usermanagement.repository.UserRepository;
 import br.com.photoapp.api.usermanagement.web.representation.request.CreateUserRequest;
-import br.com.photoapp.eureka.commonservice.domain.User;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -21,19 +16,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
-    @Mock
     UserRepository repository;
-
-    @Mock
     PasswordEncoder passwordEncoder;
-
-    @InjectMocks
     UserServiceImpl tested;
 
-    public static final String ENCRYPTED_PASSWORD = "23$#>s.;sdq2_2312";
+    @Before
+    public void setup() {
+        this.repository = mock(UserRepository.class);
+        this.passwordEncoder = mock(PasswordEncoder.class);
+        this.tested = new UserServiceImpl(repository, passwordEncoder);
+
+    }
 
     @Test
     public void shouldCreateUser() {
@@ -43,20 +38,11 @@ public class UserServiceImplTest {
         final CreateUserRequest userRequest = CreateUserRequest.builder()
                 .firstName("First")
                 .lastName("Last")
-                .username("user")
+                .username("last1234")
                 .email("nice@email.com")
                 .password("12345678")
                 .birthDate(LocalDate.now())
                 .build();
-
-        when(repository.existsByEmail(anyString()))
-                .thenReturn(false);
-
-        when(repository.existsByUsername(anyString()))
-                .thenReturn(false);
-
-        when(passwordEncoder.encode(anyString()))
-                .thenReturn(ENCRYPTED_PASSWORD);
 
         when(repository.createUser(Mockito.any(User.class)))
                 .thenReturn(userId);
@@ -85,56 +71,8 @@ public class UserServiceImplTest {
                 .birthDate(LocalDate.now())
                 .build();
 
-        when(repository.existsByEmail(anyString()))
-                .thenReturn(false);
-
-        when(repository.existsByUsername(anyString()))
-                .thenReturn(false);
-
-        when(passwordEncoder.encode(anyString()))
-                .thenReturn(ENCRYPTED_PASSWORD);
-
         when(repository.createUser(Mockito.any(User.class)))
                 .thenReturn(noRowsInserted);
-
-        // act
-        tested.createUser(userRequest);
-    }
-
-    @Test(expected = UserWithThisEmailExistsException.class)
-    public void shouldThrowUserWithThisEmailExistsException_whenEmailAlreadyExistsInTheDB() {
-        // arrange
-
-        final String email = "nice@email.com";
-
-        final CreateUserRequest userRequest = CreateUserRequest.builder()
-                .email(email)
-                .build();
-
-        when(repository.existsByEmail(email))
-                .thenReturn(true);
-
-        // act
-        tested.createUser(userRequest);
-    }
-
-    @Test(expected = UserWithThisUsernameExistsException.class)
-    public void shouldThrowUserWithThisUsernameExistsException_whenUsernameAlreadyExistsInTheDB() {
-        // arrange
-
-        final String email = "nice@email.com";
-        final String username = "xxxx_my-username_xxxx";
-
-        final CreateUserRequest userRequest = CreateUserRequest.builder()
-                .email(email)
-                .username(username)
-                .build();
-
-        when(repository.existsByEmail(email))
-                .thenReturn(false);
-
-        when(repository.existsByUsername(username))
-                .thenReturn(true);
 
         // act
         tested.createUser(userRequest);

@@ -4,21 +4,19 @@ import br.com.photoapp.api.usermanagement.exception.model.ErrorMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
 import java.util.Date;
 
 @ControllerAdvice
-public class ApplicationExceptionHandler {
+public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorMessage> handleUnexpectedException(Exception exception, WebRequest request) {
         final HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -27,7 +25,7 @@ public class ApplicationExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
     }
 
-    @ExceptionHandler(NotFoundExeception.class)
+    @ExceptionHandler(value = NotFoundExeception.class)
     public ResponseEntity<ErrorMessage> handleNotFoundException(NotFoundExeception exception, WebRequest request) {
         final HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
@@ -36,35 +34,11 @@ public class ApplicationExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessage> handleConstraintViolationException(MethodArgumentNotValidException exception, WebRequest request) {
-        final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<ErrorMessage> handleBadCredentialsException(BadCredentialsException exception, WebRequest request) {
+        final HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
 
-        String exceptionMessage = exception.getMessage();
-
-        if (!exception.getBindingResult().getAllErrors().isEmpty()) {
-            exceptionMessage = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        }
-
-        final ErrorMessage errorMessage = buildMessage(exceptionMessage, request, httpStatus.value());
-
-        return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
-    }
-
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception, WebRequest request) {
-        final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-
-        final ErrorMessage errorMessage = buildMessage("Error when reading the request body.", request, httpStatus.value());
-
-        return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorMessage> handleBadRequestException(BadRequestException exception, WebRequest request) {
-        final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-
-        final ErrorMessage errorMessage = buildMessage(exception.getMessage(), request, httpStatus.value());
+        final ErrorMessage errorMessage = buildMessage("Invalid username or password.", request, httpStatus.value());
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), httpStatus);
     }

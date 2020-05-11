@@ -1,8 +1,8 @@
 package br.com.photoapp.api.usermanagement.mapper;
 
+import br.com.photoapp.api.usermanagement.domain.User;
 import br.com.photoapp.api.usermanagement.web.representation.request.CreateUserRequest;
 import br.com.photoapp.api.usermanagement.web.representation.response.UserResponse;
-import br.com.photoapp.eureka.commonservice.domain.User;
 
 public class UserMapper {
 
