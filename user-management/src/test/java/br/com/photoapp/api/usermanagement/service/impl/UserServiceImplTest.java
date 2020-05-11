@@ -33,6 +33,7 @@ public class UserServiceImplTest {
     @InjectMocks
     UserServiceImpl tested;
 
+    public static final String ENCRYPTED_PASSWORD = "23$#>s.;sdq2_2312";
 
     @Test
     public void shouldCreateUser() {
@@ -42,7 +43,7 @@ public class UserServiceImplTest {
         final CreateUserRequest userRequest = CreateUserRequest.builder()
                 .firstName("First")
                 .lastName("Last")
-                .username("last1234")
+                .username("user")
                 .email("nice@email.com")
                 .password("12345678")
                 .birthDate(LocalDate.now())
@@ -53,6 +54,9 @@ public class UserServiceImplTest {
 
         when(repository.existsByUsername(anyString()))
                 .thenReturn(false);
+
+        when(passwordEncoder.encode(anyString()))
+                .thenReturn(ENCRYPTED_PASSWORD);
 
         when(repository.createUser(Mockito.any(User.class)))
                 .thenReturn(userId);
@@ -80,6 +84,15 @@ public class UserServiceImplTest {
                 .password("12345678")
                 .birthDate(LocalDate.now())
                 .build();
+
+        when(repository.existsByEmail(anyString()))
+                .thenReturn(false);
+
+        when(repository.existsByUsername(anyString()))
+                .thenReturn(false);
+
+        when(passwordEncoder.encode(anyString()))
+                .thenReturn(ENCRYPTED_PASSWORD);
 
         when(repository.createUser(Mockito.any(User.class)))
                 .thenReturn(noRowsInserted);
